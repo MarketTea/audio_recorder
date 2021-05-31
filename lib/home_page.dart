@@ -3,8 +3,6 @@ import 'package:audio_recorder/recorder_view.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'recorded_list_view.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
 
@@ -22,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     records = [];
     getExternalStorageDirectory().then((value) {
       appDir = value.parent.parent.parent.parent;
-      Directory appDirectory = Directory("${appDir.path}/Audiorecords/");
+      Directory appDirectory = Directory("${appDir.path}/Recordings/");
       appDir = appDirectory;
       appDir.list().listen((onData) {
         records.add(onData.path);
@@ -51,14 +49,6 @@ class _HomePageState extends State<HomePage> {
               save: _onFinish,
             ),
           ),
-          Container(
-            child: Expanded(
-              flex: 2,
-              child: Records(
-                records: records,
-              ),
-            ),
-          )
         ],
       ),
     );

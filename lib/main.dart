@@ -1,6 +1,7 @@
 import 'package:audio_recorder/home_page.dart';
-import 'package:audio_recorder/recorded_list_view.dart';
 import 'package:flutter/material.dart';
+
+import 'record_list_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -33,7 +34,7 @@ class _HomeState extends State<Home> {
 
   List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    Records()
+    RecordingList()
   ];
 
   void _onItemTapped(int index) {

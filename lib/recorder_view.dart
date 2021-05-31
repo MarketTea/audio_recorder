@@ -50,12 +50,19 @@ class _RecorderState extends State<Recorder> {
       children: [
         Column(
           children: [
+            Text(
+              "Press the button to record",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             SizedBox(
               height: 20,
             ),
             Text(
-              _recording?.duration?.toString()?.substring(0, 7) ?? "0:0:0:0",
-              style: TextStyle(color: Colors.black, fontSize: 20),
+              _recording?.duration?.toString()?.substring(0, 7) ?? "0:00:00",
+              style: TextStyle(color: Colors.black, fontSize: 36, fontWeight: FontWeight.bold),
             ),
             SizedBox(
               height: 20,
@@ -152,19 +159,20 @@ class _RecorderState extends State<Recorder> {
 
   _initial() async {
     Directory appDir = await getExternalStorageDirectory();
-    String jrecord = 'Audiorecords';
-    String dato = "${DateTime.now()?.millisecondsSinceEpoch?.toString()}.wav";
-    Directory appDirec =
-        Directory("${appDir.parent.parent.parent.parent.path}/$jrecord/");
-    if (await appDirec.exists()) {
-      String patho = "${appDirec.path}$dato";
-      audioRecorder = FlutterAudioRecorder(patho, audioFormat: AudioFormat.WAV);
+    String audioRecord = 'Recordings';
+    String date = "${DateTime.now()?.millisecondsSinceEpoch?.toString()}.mp4";
+    Directory appDirectory = Directory("${appDir.parent.parent.parent.parent.path}/$audioRecord/");
+    if (await appDirectory.exists()) {
+      String path = "${appDirectory.path}$date";
+      print("PATH IS:-------------" + path);
+      audioRecorder = FlutterAudioRecorder(path, audioFormat: AudioFormat.AAC);
       await audioRecorder.initialized;
     } else {
-      appDirec.create(recursive: true);
+      appDirectory.create(recursive: true);
       Fluttertoast.showToast(msg: "Start Recording , Press Start");
-      String patho = "${appDirec.path}$dato";
-      audioRecorder = FlutterAudioRecorder(patho, audioFormat: AudioFormat.WAV);
+      String path = "${appDirectory.path}$date";
+      print("PATH IS:-------------" + path);
+      audioRecorder = FlutterAudioRecorder(path, audioFormat: AudioFormat.AAC);
       await audioRecorder.initialized;
     }
   }
