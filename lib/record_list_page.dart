@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 
 import 'audio.dart';
 
@@ -31,6 +32,7 @@ class _RecordingListState extends State<RecordingList> {
       directoryPath = path;
     });
     print("Directory Path is $directoryPath");
+    print("Directory Path file $file");
 
     return directoryPath;
   }
@@ -68,6 +70,9 @@ class _RecordingListState extends State<RecordingList> {
                         deleteFile();
                         setState(() {
                           file.removeAt(index);
+                          // Directory directory = Directory(directoryPath);
+                          // directory.deleteSync(recursive: true);
+                          // file.remove(directory);
                         });
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('$item dismissed')));
