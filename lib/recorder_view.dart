@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 
 class Recorder extends StatefulWidget {
@@ -20,6 +21,7 @@ class _RecorderState extends State<Recorder> {
   RecordingStatus _currentStatus = RecordingStatus.Unset;
   bool stop = false;
   Recording _recording;
+  String fileName;
 
   // Recorder properties
   FlutterAudioRecorder audioRecorder;
@@ -160,17 +162,23 @@ class _RecorderState extends State<Recorder> {
   _initial() async {
     Directory appDir = await getExternalStorageDirectory();
     String audioRecord = 'Recordings';
-    String date = "${DateTime.now()?.millisecondsSinceEpoch?.toString()}.mp4";
+    //String date = "${DateTime.now()?.millisecondsSinceEpoch?.toString()}.m4a";
     Directory appDirectory = Directory("${appDir.parent.parent.parent.parent.path}/$audioRecord/");
     if (await appDirectory.exists()) {
-      String path = "${appDirectory.path}$date";
+      DateFormat dateFormat = DateFormat("yyyy_MM_dd HH_mm_ss");
+      String formatDate = dateFormat.format(DateTime.now());
+      fileName = "Recording_" + formatDate;
+      String path = "${appDirectory.path}$fileName";
       print("PATH IS:-------------" + path);
       audioRecorder = FlutterAudioRecorder(path, audioFormat: AudioFormat.AAC);
       await audioRecorder.initialized;
     } else {
       appDirectory.create(recursive: true);
       Fluttertoast.showToast(msg: "Start Recording , Press Start");
-      String path = "${appDirectory.path}$date";
+      DateFormat dateFormat = DateFormat("yyyy_MM_dd HH_mm_ss");
+      String formatDate = dateFormat.format(DateTime.now());
+      fileName = "Recording_" + formatDate;
+      String path = "${appDirectory.path}$fileName";
       print("PATH IS:-------------" + path);
       audioRecorder = FlutterAudioRecorder(path, audioFormat: AudioFormat.AAC);
       await audioRecorder.initialized;
