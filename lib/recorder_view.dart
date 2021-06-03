@@ -52,19 +52,34 @@ class _RecorderState extends State<Recorder> {
       children: [
         Column(
           children: [
-            Text(
-              "Press the button to record",
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+            Container(
+              height: 300,
+              width: 300,
+              alignment: Alignment.center,
+              child: Text(
+                _recording?.duration?.toString()?.substring(0, 7) ?? "0:00:00",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold),
               ),
+              decoration: new BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.teal[400], width: 3.0)),
+            ),
+            SizedBox(
+              height: 20,
             ),
             SizedBox(
               height: 20,
             ),
             Text(
-              _recording?.duration?.toString()?.substring(0, 7) ?? "0:00:00",
-              style: TextStyle(color: Colors.black, fontSize: 36, fontWeight: FontWeight.bold),
+              "Press the button to record",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             SizedBox(
               height: 20,
@@ -163,7 +178,8 @@ class _RecorderState extends State<Recorder> {
     Directory appDir = await getExternalStorageDirectory();
     String audioRecord = 'Recordings';
     //String date = "${DateTime.now()?.millisecondsSinceEpoch?.toString()}.m4a";
-    Directory appDirectory = Directory("${appDir.parent.parent.parent.parent.path}/$audioRecord/");
+    Directory appDirectory =
+        Directory("${appDir.parent.parent.parent.parent.path}/$audioRecord/");
     if (await appDirectory.exists()) {
       DateFormat dateFormat = DateFormat("yyyy_MM_dd HH_mm_ss");
       String formatDate = dateFormat.format(DateTime.now());
