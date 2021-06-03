@@ -37,16 +37,11 @@ class _RecordingListState extends State<RecordingList> {
     return directoryPath;
   }
 
-  Future<File> get _localFile async {
-    final abc = _listOfFiles;
-    print('ABC------------------------ $abc');
-    return File('$abc');
-  }
-
-  Future<void> deleteFile() async {
+  Future<void> deleteFiles(File file) async {
     try {
-      final file = await _localFile;
-      await file.delete();
+      if (await file.exists()) {
+        await file.delete();
+      }
     } catch (e) {
       // Error in getting access to the file.
     }
@@ -66,18 +61,30 @@ class _RecordingListState extends State<RecordingList> {
                     final item = file[index].toString();
                     return Dismissible(
                       key: Key(item),
+                      direction: DismissDirection.startToEnd,
                       onDismissed: (direction) {
-                        deleteFile();
+                        deleteFiles(file.elementAt(index));
                         setState(() {
                           file.removeAt(index);
-                          // Directory directory = Directory(directoryPath);
-                          // directory.deleteSync(recursive: true);
-                          // file.remove(directory);
                         });
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('$item dismissed')));
                       },
-                      background: Container(color: Colors.red),
+                      background: Container(
+                        color: Colors.red,
+                        //margin: EdgeInsets.symmetric(horizontal: 15),
+                        alignment: Alignment.centerLeft,
+                        child: Row(
+                          children: [
+                            SizedBox(width: 8.0,),
+                            Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                            ),
+                            Text('Delete', style: TextStyle(color: Colors.white),)
+                          ],
+                        ),
+                      ),
                       child: Card(
                         elevation: 2.0,
                         child: GestureDetector(
